@@ -1,0 +1,122 @@
+import java.util.Scanner;
+
+public class laba2 {
+
+  //-----------------------------------1-----------------------------------
+       public static void task1()
+     {
+      /*В данном примере с клавиатуры считывается строка. Добавьте цикл, чтобы он не
+      прекращал считывать строку, пока не будет введено значение “Student”. Регистр введенной
+      строки не учитывать.
+      public static void main(String args[]) {Scanner scan=new Scanner(System.in);
+      String who = scan.nextLine();
+      if (!who.equals("Student"))
+      who = "Wrong";
+      else
+      who = "Right";
+      System.out.print(who);*/
+      Scanner scan = new Scanner(System.in);
+      String who;
+
+        do {// запрашиваем строку с клавиатуры и приводим ее к нижнему регистру
+            System.out.print("Введите слово: ");
+            who = scan.nextLine().toLowerCase();
+
+            /*Метод toLowerCase() используется для приведения всех символов
+            в строке к нижнему регистру. Метод не изменяет исходную строку,
+            а создает новую строку, которая является копией исходной строки
+            но с символами в нижнем регистре.*/
+
+        } while (!who.equals("student")); // продолжаем цикл, пока введенная строка не будет равна "student"
+
+        // выводим сообщение, если введенная строка равна "student"
+        System.out.println("Right");
+
+
+}
+
+//-----------------------------------2-----------------------------------
+       public static void task2()
+     {
+      /*Предусмотреть ввод строки с клавиатуры.
+      Определите количество согласных символов в строке.*/
+      Scanner scanner = new Scanner(System.in);//считывает ввод пользователя с консоли
+      System.out.print("Введите строку: ");
+      String input = scanner.nextLine();//Считываем строку
+
+      int consonantsCount = 0;//переменна в которой  храниться количество согласных символов
+      String consonants = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
+      for (int i = 0; i < input.length(); i++)
+      {
+          char c = input.charAt(i);//метод для поиска символа в строке
+          if (consonants.indexOf(c) != -1) //Если символ не найден, то метод возвращает значение -1
+          {
+              consonantsCount++;//Если символ является согласным +1
+          }
+      }
+      System.out.println("Количество согласных символов: " + consonantsCount); // вывод
+    }
+
+//-----------------------------------3-----------------------------------
+        public static void task3()
+     {
+      /*С клавиатуры вводится электронная почта.
+      Определите является ли она - аккаунтом Google.*/
+
+        Scanner scanner = new Scanner(System.in);//ввод с клавиатуры
+        System.out.print("Введите вашу электронную почту: "); //ввод электронной почты
+        String email = scanner.nextLine();
+        if (email.endsWith("@gmail.com") || email.endsWith("@googlemail.com"))
+        {// является ли электронная почта Google-аккаунтом
+            System.out.println("Это Google-аккаунт!"); // является
+        }
+        else
+        {
+            System.out.println("Это не Google-аккаунт."); // не является
+        }
+  }
+
+//-----------------------------------4-----------------------------------
+        public static void task4()
+     {
+        /*Напишите метод, заменяющий в строке все вхождения слова «2 курс» на «3 курс ».*/
+
+          String text1 = "я 2 курс. он 2 курс. она 1 курс. ";
+          String oldWord = "2 курс";
+          String newWord = "3 курс";
+
+          int index = text1.indexOf(oldWord);
+          while (index != -1)
+          {
+            text1 = text1.substring(0, index) + newWord + text1.substring(index + oldWord.length());
+            index = text1.indexOf(oldWord, index + newWord.length());
+          }
+
+          System.out.println(text1);
+
+      }
+
+//-----------------------------------4-----------------------------------
+        public static void task5()
+     {
+        /*Вводится строка с клавиатуры. Удалите 3 символа с середины.*/
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите строку: ");
+        String inputString = scanner.nextLine();
+
+        int length = inputString.length();
+        int middleIndex = length / 2; // Вычисляем индекс среднего символа и удаляем 3 символа, начиная с среднего
+        String result = inputString.substring(0, middleIndex - 1) // Символы до среднего символа (включительно)
+                      + inputString.substring(middleIndex + 2);  // Символы после трех символов, начиная со следующего символа после среднего
+
+        System.out.println("Результат: " + result);
+}
+
+//------------------------------------------------------------------------
+
+       public static void main(String[] args)
+      {
+         task4();
+      }
+}
