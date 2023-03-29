@@ -1,0 +1,40 @@
+import java.io.*;
+
+/*2.Открыть файл с дробными числам, записанными в столбик.
+  Округлить до двух знаков после запятой все дробные числа содержащиеся в файле и
+  перезаписать округленные результаты на месте не округленных.*/
+public class task2 {
+    public static void main(String[] args) {
+        String fileName = "numbers.txt";
+
+        try {
+            // читаем числа
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            String line = reader.readLine();
+            StringBuilder sb = new StringBuilder();
+            while (line != null) { // читаем числа до тех пор, пока не достигнем конца файла
+                // округляем числа и записываем их в строку
+                double number = Double.parseDouble(line); // преобразуем строку в число с плавающей точкой
+                double roundedNumber = Math.round(number * 100.0) / 100.0; // округляем
+                sb.append(roundedNumber).append("\n");
+                line = reader.readLine();
+                //получается читаем по строчно каждую строку
+            }
+            reader.close();
+
+            // перезаписываем файл с округленными числами
+            FileWriter writer = new FileWriter(fileName); // создаем объект FileWriter для записи в файл
+            writer.write(sb.toString()); // записываем содержимое StringBuilder в файл
+            writer.close();
+
+            System.out.println("Округление завершено");
+
+        } catch (IOException e) {
+            System.out.println("Ошибка при чтении или записи файла");
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            System.out.println("Ошибка: файл содержит неверный формат чисел");
+            e.printStackTrace();
+        }
+    }
+}
