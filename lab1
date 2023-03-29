@@ -1,0 +1,187 @@
+/*
+//-----------------------------------1-----------------------------------
+import java.util.Scanner;
+
+public class ex1 {
+    public static void main(String[] args) {
+        // создаем 2D-массив имен и категорий
+        String[][] names = {
+            {"Stone", "miss"},
+            {"Black,", "mrs"},
+            {"Jones,", "mr"},
+            {"White", "miss"},
+            {"Brown,", "mrs"},
+            {"Kill,", "mr"},
+        };
+        // запрашиваем у пользователя категорию
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a category: ");
+        String category = scanner.nextLine();
+
+        // выводим все имена в указанной категории
+        printNames(names, category);
+    }
+    public static void printNames(String[][] names, String category) {
+        for (int i = 0; i < names.length; i++) {
+            if (names[i][1].equals(category)) {
+                System.out.println(names[i][0]);
+
+                /*Мы передаем names и category в метод printNames,
+                который выводит все имена из names, находящиеся в категории category.
+                Он перебирает все элементы в names с помощью цикла for и проверяет,
+                соответствует ли категория элемента category.
+                Если да, то он выводит соответствующее имя .*/
+            }
+        }
+    }
+}
+*/
+
+//----------------------------------------------------------------------
+
+import java.io.*;
+import java.util.*;
+import java.util.Random;
+
+public class laba1 {
+
+//-----------------------------------2-----------------------------------
+  public static void task2() {
+    /*Заполнить массив нулями и единицами,
+    при этом данные значения чередуются, начиная с нуля.*/
+    int[] massiv = new int[10];
+    System.out.print("Массив  ");
+    for(int i = 0; i < massiv.length; i++)
+    {
+        if (i % 2 == 0){
+          massiv[i] = 0;
+        }
+     else
+     {
+       massiv[i] = 1;
+     }
+    }
+System.out.println(Arrays.toString(massiv));
+ for (int m: massiv )
+ System.out.print(m+",");
+
+  }
+
+//-----------------------------------3-----------------------------------
+
+  public static void task3() {
+    /*Дан массив и число p. Найдите два различных числа в массиве,
+    сумма которых наиболее близка к p*/
+    int[] arr = new int[10];
+    Random random = new Random();
+    for (int i = 0; i < arr.length; i++) {
+        arr[i] = random.nextInt(100);
+    }
+    System.out.print("Массив: [");
+    for (int i = 0; i < arr.length; i++) {
+        if (i != 0) {
+            System.out.print(", ");
+        }
+        System.out.print(arr[i]);
+    }
+    System.out.println("]");
+          Scanner scan = new Scanner(System.in);
+          System.out.print("Введите число: ");
+          int p = scan.nextInt();
+        Arrays.sort(arr); // сортировка  массива в порядке возрастания
+
+        int left = 0; // левый индекс
+        int right = arr.length - 1; // правый индекс
+        int closestSum = Integer.MAX_VALUE; // инициализируем ближайшую сумму к большому значению
+        int num1 = 0, num2 = 0; // инициализация числа, сумма которых ближе всего к числу p
+
+        while (left < right) {
+            int sum = arr[left] + arr[right]; // вычисление суммы текущей пары цифр
+
+            if (Math.abs(sum - p) < Math.abs(closestSum - p) && arr[left] != arr[right]) {
+                //если текущая пара имеет сумму, близкую к p, чем предыдущая ближайшая пара, и числа отличаются
+                closestSum = sum; // обновление
+                num1 = arr[left];
+                num2 = arr[right];
+            }
+
+            if (sum > p) {
+                right--;
+            } else {
+                left++;
+            }
+        }
+
+        System.out.println("\nДва различных числа в массиве,сумма которых наиболее близка к P=" + p + " это " + num1 + " и " + num2);
+    }
+
+//-----------------------------------4-----------------------------------
+
+  public static void task4()  {
+      /*Дан массив. Найдите три последовательных элемента в массиве,
+      сумма которых максимальна.*/
+      int[] arr = new int[10];
+      Random random = new Random();
+      for (int i = 0; i < arr.length; i++) {
+          arr[i] = random.nextInt(100);
+      }
+      System.out.print("Массив: [");
+      for (int i = 0; i < arr.length; i++) {
+          if (i != 0) {
+              System.out.print(", ");
+          }
+          System.out.print(arr[i]);
+      }
+      System.out.println("]");
+        int maxSum = Integer.MIN_VALUE;
+        int maxIndex = -1;
+
+        for (int i = 0; i <= arr.length - 3; i++) {
+            int sum = arr[i] + arr[i+1] + arr[i+2];
+
+            if (sum > maxSum) {
+                maxSum = sum;
+                maxIndex = i;
+            }
+        }
+
+        System.out.println("\nТри последовательных элемента в массиве,сумма которых максимальна [" + arr[maxIndex] + ", " + arr[maxIndex+1] + ", " + arr[maxIndex+2] +  "]");
+    }
+
+//-----------------------------------5-----------------------------------
+
+  public static void task5()  {
+    /*Дан массив. Заменить все числа,
+      меньшие последнего элемента массива, на первый элемент.*/
+
+              int[] arr = new int[10];
+              Random random = new Random();
+              for (int i = 0; i < arr.length; i++) {
+                  arr[i] = random.nextInt(100);
+              }
+              System.out.print("Первоначальный массив: [");
+              for (int i = 0; i < arr.length; i++) {
+                  if (i != 0) {
+                      System.out.print(", ");
+                  }
+                  System.out.print(arr[i]);
+              }
+              System.out.println("]");
+        int lastElement = arr[arr.length - 1]; // получаем последний элемент массива
+        int firstElement = arr[0]; // получаем первый элемент массива
+
+        for (int i = 0; i < arr.length - 1; i++) {
+            if (arr[i] < lastElement) {
+                arr[i] = firstElement;
+            }
+        }
+
+        System.out.println("\nИзмененный массив: " + Arrays.toString(arr));
+    }
+
+//------------------------------------------------------------------------
+
+   public static void main(String[] args) {
+     task3();
+  }
+}
