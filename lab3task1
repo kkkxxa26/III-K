@@ -1,0 +1,48 @@
+import java.io.*;
+
+/*1.Создать текстовый файл, содержащий сведения о студентах первого курса:
+  Фамилия И.О., группа, курс, факультет.
+  Затем информацию о студентах, относящихся к разным факультетам,
+  переписать в файлы, соответствующие названиям факультетов.*/
+public class task1 {
+    public static void main(String[] args) throws IOException {
+
+        // Создаем файл с информацией о студентах
+        File inputFile = new File("students.txt");
+
+        // Записываем данные о студентах
+        FileWriter writer = new FileWriter(inputFile);
+        //информация о студентах
+        //                ( Ф.И.О       ,группа        ,курс ,факультет)
+        writer.write("Муканов Э.Б.   , Группа ИБ   , 1   , Факультет ФИТ\n");
+        writer.write("Мусаев У.И.    , Группа ИБ   , 1   , Факультет ФИТ\n");
+        writer.write("Макилов Э.Б.   , Группа ИВТ  , 1   , Факультет ИИТ\n");
+        writer.write("Омурбеков Э.Т  , Группа ИВТ  , 1   , Факультет ИИТ\n");
+        writer.write("Нурутдинов М.Н , Группа ПИ   , 1   , Факультет ИТ\n");
+        writer.write("Жумабеков Э.И. , Группа ПИ   , 1   , Факультет ИТ\n");
+        writer.close();
+
+        // Считываем данные и разделяем по факультетам
+        FileReader reader = new FileReader(inputFile);
+        BufferedReader bufferedReader = new BufferedReader(reader); //читает данные из файла
+
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            String[] studentData = line.split(", ");
+            String faculty = studentData[3];
+                                            //массив studentData*
+
+            // Создаем файл для факультета, если его еще нет
+            File facultyFile = new File(faculty + ".txt");
+            if (!facultyFile.exists()) {
+                facultyFile.createNewFile();//Если файл не существует, то он создается с помощью метода
+            }
+
+            // Записываем данные о студенте в файл для факультета
+            FileWriter facultyWriter = new FileWriter(facultyFile, true); //для записи данных в файл факультета
+            facultyWriter.write(line + "\n");//Запись данных о студенте в файл факультета
+            facultyWriter.close();
+        }
+        bufferedReader.close();
+    }
+}
