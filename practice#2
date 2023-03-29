@@ -1,0 +1,77 @@
+//-------------------------------1-------------------------------
+/*Решить квадратное уравнение, вычислить дискриминант, найти корни уравнения.
+Пусть нам требуется решить уравнение вида: Квадратное уравнение "ax^2 + bx + c = 0"
+ Будем решать его через дискриминант.
+ Для получения корней уравнения необходимо выполнить следующий алгоритм:
+ 1.Вычислим дискриминант по формуле "D= b^2-4ac"
+ 2.If дискриминант больше нуля, то вычислим корни уравнения x1 и x2 по формуле x1,2 = -b +-sqrtD/2a
+   else if дискриминант равен нулю, значит уравнение имеет единственный корень. Вычислим его по формуле x= -b /2a
+   else дискриминант меньше нуля, уравнение не имеет действительных корней.*/
+/*import java.util.Scanner;
+import java.lang.Math;
+
+public class praktika2 {
+  public static double Disc(double a, double b, double c )
+  {
+      return (Math.pow(b,2) - 4 * a * c);
+  }
+  public static void koren(double D, double a, double b) {
+    if (D > 0) {
+        double x1, x2;
+        x1 = (-b - Math.sqrt(D)) / (2 * a);
+        x2 = (-b + Math.sqrt(D)) / (2 * a);
+        System.out.println("Корни уравнения: x1 = " + x1 + ", x2 = " + x2);
+    }  else if (D == 0) {
+        double x;
+        x = -b / (2 * a);
+        System.out.println("Уравнение имеет единственный корень: x = " + x);
+    }  else {
+        System.out.println("Уравнение не имеет действительных корней!");
+    }
+  }
+    public static void main (String[] args) {
+      //Объявим необходимые переменные. Для вычислений использууется вещественный тип данных повышенной точности double.
+        double a, b, c;
+        double D;
+      //Вывод информации о программе и ввод данных
+        System.out.println("Программа решает квадратное уравнение вида:");
+        System.out.println("ax^2 + bx + c = 0");
+        System.out.println("Введите a, b и c:");
+      //новый объект класса Scanner, он необходим для ввода данных в программу
+        Scanner in = new Scanner(System.in);
+      //считываем переменные
+        a = in.nextDouble();
+        b = in.nextDouble();
+        c = in.nextDouble();
+      //Реализуем алгоритм решения квадратного уравнения
+        Disc(a, b, c);
+        koren(  Disc(a, b, c), a , b);
+    }
+}
+//a=1, b=-8, c=15
+*/
+
+  //-------------------------------2-------------------------------
+  /*Вычислить сумму ряда.*/
+
+import java.util.Scanner;
+import java.lang.Math;
+
+public class praktika2 {
+    public static void task2(int count_iteration){
+        if(count_iteration < 0){
+            System.out.println("Error: count iteration must be greater than 0");
+        }
+        else{
+        }
+            float S = 0;
+            for(int i = 1; i < count_iteration+ 1; i++){
+                S += (float) ((Math.pow(8, i) - Math.pow(3, i + 1)) / Math.pow(10, i));
+                System.out.println("S[" + i + "] = " + S);
+        }
+    }
+    public static void main(String args[])
+    {
+        task2(6);
+    }
+}
