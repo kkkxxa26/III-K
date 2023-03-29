@@ -1,0 +1,30 @@
+import java.io.File;
+import java.io.IOException;
+/* 5.Новый созданный файл переименуйте на «Пора сдавать отчет».*/
+public class task5 {
+    public static void main(String[] args) {
+        String fileName = "новый файл.txt"; // новый файл
+        File file = new File(fileName);
+
+        // создание нового файла
+        try {
+            if (file.createNewFile()) {
+                System.out.println("Файл " + fileName + " успешно создан.");
+            } else {
+                System.out.println("Не удалось создать файл " + fileName + ".");
+            }
+        } catch (IOException e) {
+            System.out.println("Произошла ошибка при создании файла " + fileName + ": " + e.getMessage());
+            return;
+        }
+
+        // переименование файла
+        String newFileName = "Пора сдавать отчет.txt";
+        File newFile = new File(newFileName);
+        if (file.renameTo(newFile)) {
+            System.out.println("Файл " + fileName + " успешно переименован в " + newFileName + ".");
+        } else {
+            System.out.println("Не удалось переименовать файл " + fileName + ".");
+        }
+    }
+}
