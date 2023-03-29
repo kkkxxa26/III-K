@@ -1,0 +1,42 @@
+import java.io.*;
+import java.util.Scanner;
+
+/*3.С клавиатуры вводится дробные числа.
+Открыть файл из предыдущего задания (task2) и дописать в него числа с клавиатуры на отдельные строки.*/
+public class task3 {
+    public static void main(String[] args) {
+        String fileName = "numbers.txt"; // имя файла из предыдущего задания
+
+        try {
+
+            Scanner scanner = new Scanner(System.in);
+            FileWriter writer = new FileWriter(fileName, true);
+
+            // Запросим у пользователя числа
+            System.out.println("Введите числа, которые нужно добавить в файл (для окончания ввода введите 'stop'):");
+            String input;
+            do {
+                input = scanner.nextLine();//считываем
+                if (!input.equals("stop")) {//если не равно "stop"
+                    try {
+                        double number = Double.parseDouble(input);//преобразование в дробное число
+                        writer.write(number + "\n");//запись числа в файл
+                    } catch (NumberFormatException e) {
+                        System.out.println("Ошибка: введено некорректное число");// ошибка, если введенное значение не является верным
+                    }
+                }
+            } while (!input.equals("stop"));//если равно -  после ввода слова "stop" цикл end
+
+            writer.close();
+
+            System.out.println("Данные успешно записаны в файл"); // если все окей
+
+        } catch (IOException e) {
+            System.out.println("Ошибка при чтении или записи файла");// если все не окей
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
