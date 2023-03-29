@@ -1,0 +1,230 @@
+import java.util.Scanner;
+
+public class praktika1{
+
+  //-----------------------1-----------------------
+/*1) Каким будет результат компиляции и выполнения данного кода:*/
+
+    Scanner scan = new Scanner(System.in);
+    public static void fon1() {
+        int i = 3;
+        switch(i)
+        {
+        default: System.out.println("default");
+        break;
+        case 1: System.out.println("1");
+        break;
+        case 2: System.out.println("2");
+        break;
+        }
+    }
+  //-----------------------2-----------------------
+/*2) Что напечатает следующий код:*/
+    public static void fon2(){
+        int i = 0;
+        System.out.print(++i);
+        System.out.print(i++);
+        System.out.print(i);
+    }
+
+   //-----------------------5-----------------------
+   /*С клавиатуры вводится число от 1 до 12. Вывести название месяца, соответствующего
+порядковому номеру месяца. Использовать switch...case.*/
+    public static void fon5(){
+    Scanner scan = new Scanner(System.in);
+    System.out.print("Month (1-12): ");
+        int month = scan.nextInt();
+
+        switch (month) {
+        case 1:
+            System.out.println("January");
+            break;
+        case 2:
+            System.out.println("February");
+            break;
+        case 3:
+            System.out.println("March");
+            break;
+        case 4:
+            System.out.println("April");
+            break;
+        case 5:
+            System.out.println("May");
+            break;
+        case 6:
+            System.out.println("June");
+            break;
+        case 7:
+            System.out.println("July");
+            break;
+        case 8:
+            System.out.println("August");
+            break;
+        case 9:
+            System.out.println("September");
+            break;
+        case 10:
+            System.out.println("October");
+            break;
+        case 11:
+            System.out.println("November");
+            break;
+        case 12:
+            System.out.println("December");
+            break;
+        default:
+            System.out.println("error");
+        }
+    }
+
+//-----------------------6-----------------------
+/*В университете существует бальная система оценивания успеваемости студентов. Реализовать
+ввод балла с клавиатуры. Напишите программу, которая будет выводить буквенное обозначение
+оценки.. Используйте таблицу баллов:*/
+
+    public static void fon6(){
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Enter score: ");
+        int score = scan.nextInt();
+
+        if (100 >= score && score >= 87) {
+        System.out.println("A(excellent) ");
+        } else if (86 >= score && score >= 80) {
+        System.out.println("B(very well)");
+        } else if (79 >= score && score >= 74) {
+        System.out.println("C(good)");
+        } else if (73 >= score && score >= 68) {
+        System.out.println("D(satisfactory)");
+        } else if(67 >= score && score >= 61){
+        System.out.println("E(mediocre)");
+        } else if(60 >= score && score >= 41){
+        System.out.println("FX(unsatisfactory)");
+      } else if( 0 > score && score > 100){
+        System.out.println("nedopusk");
+        }  else{
+        System.out.print("F(unsatisfactory)");
+        }
+
+        scan.close();
+    }
+
+    public static void main(String args[])
+    {
+        fon6();
+    }
+}
+/* 
+//-----------------------3-----------------------
+/*Операции сравнения.С клавиатуры вводятся 2 числа. Используя оператор условия, выполнить
+проверку условий на сравнение чисел(!=, ==, <,>)*/
+
+import java.util.Scanner;
+public class praktika1zd3 {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Vvedite 2 chisla:");
+        int a = scan.nextInt();
+        int b = scan.nextInt();
+        System.out.println("Choose num 1-4");
+        int d = scan.nextInt();
+        int c=d;
+        switch (c){
+            case 1:
+                if(a!=b){
+                    System.out.println(a +" not equal "+ b);
+
+                }
+                else System.out.println(a + " equal "+b);
+                break;
+                case 2:
+                    if(a==b){
+                        System.out.println("Equal");
+
+                    }
+                    else System.out.println("Not equal");
+                    break;
+                    case 3:
+                        if(a<b){
+                        System.out.println(b + " Bigger "+a);
+                        }
+                        else System.out.println(b + " Smaller "+a);
+                        break;
+                        case 4:
+                            if(a>b){
+                                System.out.println(a + " Bigger "+b);
+                            }
+                            else System.out.println(a + " Smaller "+b);
+                            break;
+                            default:System.out.println("Not true");
+        }
+}
+}
+*/
+/*
+//-----------------------4-----------------------
+/*С клавиатуры вводятся 2 символа.
+С помощью оператора цикла проверить существует ли первый введенный символ
+в предложении (у каждого студента свое предложение).
+Если такой символ существует, то заменить его на второй введенный символ.
+Вывести конечный результат. Реализовать два варианта:
+*/
+
+//а) замена всех найденных символов
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+public class praktika1zd4{
+    public static void main(String[] args) throws java.io.IOException{
+        char symb1, symb2;
+        String str=new String("Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible. ");
+        System.out.println("Input symb1:");
+        symb1=(char)System.in.read();
+        System.in.skip(System.in.available());
+        System.out.println("Input symb2:");
+        symb2=(char)System.in.read();
+        char[] arr=str.toCharArray();
+        for(int i=0; i<str.length();i++)
+        {
+            if(arr[i]==symb1)
+            arr[i]=symb2;
+        }
+        System.out.print("Result:");
+        for(int i=0; i<str.length();i++)
+        {
+            System.out.print(arr[i]);
+        }
+    }
+}
+
+/*
+//б) замена только первого найденного символа.
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+public class praktika1zd4{
+    public static void main(String[] args) throws java.io.IOException{
+        char symb1, symb2;
+        String str=new String("Java (programming language)");
+        System.out.println("Input symb1:");
+        symb1=(char)System.in.read();
+        System.in.skip(System.in.available());
+        System.out.println("Input symb2:");
+        symb2=(char)System.in.read();
+        char[] arr=str.toCharArray();
+        for(int i=0; i<str.length();i++)
+        {
+            if(arr[i]==symb1) {
+            arr[i]=symb2;break;}
+        }
+        System.out.print("Result:");
+        for(int i=0; i<str.length();i++)
+        {
+            System.out.print(arr[i]);
+        }
+    }
+}*/
+*/
+
