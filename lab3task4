@@ -1,0 +1,33 @@
+import java.io.*;
+/*4.Скопировать первые 10 строк из файла и создать новый файл с этими данными.*/
+public class task4 {
+    public static void main(String[] args) {
+        String fileName = "copy.txt"; // имя исходного файла
+        String newFileName = "past.txt"; // имя нового файла
+
+        try {
+            // открываем исходный файл для чтения
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+
+            // открываем новый файл для записи
+            FileWriter writer = new FileWriter(newFileName);
+
+            int count = 0;//10
+            String line;
+            while ((line = reader.readLine()) != null && count < 10) {
+                // записываем первые 10 строк в новый файл
+                writer.write(line + "\n");
+                count++;//+1
+            }
+
+            reader.close();
+            writer.close();
+
+            System.out.println("Первые 10 строк скопированы в файл " + newFileName);//программа успешно завершена
+
+        } catch (IOException e) {
+            System.out.println("Ошибка при чтении или записи файла");
+            e.printStackTrace();
+        }
+    }
+}
