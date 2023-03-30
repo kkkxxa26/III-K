@@ -1,0 +1,60 @@
+/*лабораторная работа 4*/
+/*а) задать вращение объекта вокруг его центра по часовой стрелке
+попеременно увеличивая и уменьшая объект на каждый поворот*/
+import javax.swing.*;
+import java.awt.*;
+/*задать вращение объекта вокруг его центра по часовой стрелке
+попеременно увеличивая и уменьшая объект на каждый поворот;*/
+public class RotatingObject extends JPanel {
+
+    private static final int WIDTH = 800;//высотка окна
+    private static final int HEIGHT = 600;//ширина окна
+    private static final int OBJECT_SIZE = 100;//размер фигуры
+    private static final int OBJECT_SIZE1 = 200;//размер фигуры
+    private int centerX = WIDTH / 2;
+    private int centerY = HEIGHT / 2;
+    //centerX и centerY определяют координаты центра окна,
+    private int angle = 0;
+    //angle - угол поворота прямоугольника
+    private int scale = 1;
+    //scale - масштабирование объекта
+
+    // Конструктор класса, в котором инициализируются размеры панели и устанавливается таймер для перерисовки объекта
+    public RotatingObject() {
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        Timer timer = new Timer(10, e -> {
+            angle++; // увеличиваем угол на каждой итерации таймера
+            if (angle % 90 == 0) { // проверяем, достиг ли угол поворота
+                scale = -scale; // меняем масштаб на противоположный
+            }
+            repaint(); // перерисовываем панель с объектом
+        });
+        timer.start(); // запускаем таймер
+    }
+
+    // Функция для отрисовки объекта на панели
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g.create(); // Создаем копию объекта Graphics и получаем Graphics2D
+        g2d.translate(centerX, centerY); // Переносим координатную систему в центр панели
+        g2d.rotate(Math.toRadians(angle), 0, 0); // Вращаем объект на заданный угол вокруг его центра
+        g2d.scale(1 + scale * 0.1, 1 + scale * 0.1); // Масштабируем объект, увеличивая или уменьшая его размер на 10%
+        g2d.setColor(Color.red); // Устанавливаем цвет заливки объекта
+        g2d.fillRect(-OBJECT_SIZE / 2, -OBJECT_SIZE1 / 2, OBJECT_SIZE, OBJECT_SIZE1); // Заливаем прямоугольник заданным цветом
+        g2d.setColor(Color.white); // Устанавливаем цвет контура объекта
+        g2d.drawRect(-OBJECT_SIZE / 2, -OBJECT_SIZE1 / 2, OBJECT_SIZE, OBJECT_SIZE1); // Рисуем контур прямоугольника
+        g2d.dispose(); // Освобождаем ресурсы, занятые объектом Graphics2D
+    }
+
+    // Функция main, в которой создается окно и добавляется на него объект RotatingObject
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Rotating Object");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Устанавливаем действие при закрытии окна
+        frame.getContentPane().add(new RotatingObject()); // Добавляем объект Rotating
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+    }
+}
