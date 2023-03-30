@@ -1,0 +1,120 @@
+using System;
+using System.Runtime.InteropServices;
+using System.IO;
+using Microsoft.Win32.SafeHandles;
+
+
+namespace SP2_usingAPI
+{
+    class Program
+    {
+        //function import 
+        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        static extern SafeFileHandle CreateFile(
+                string fileName,
+                [MarshalAs(UnmanagedType.U4)] FileAccess fileAccess,
+                [MarshalAs(UnmanagedType.U4)] FileShare fileShare,
+                IntPtr securityAttributes,
+                [MarshalAs(UnmanagedType.U4)] FileMode creationDisposition,
+                FileAttributes flags,
+                IntPtr template);
+
+        //function to read 
+        private static byte[] ReadDrive(string FileName, int sizeToRead)
+        {
+
+            if (sizeToRead < 1)
+                throw new System.ArgumentException("Size parameter cannot be null or 0 or less than 0!");
+            SafeFileHandle drive = CreateFile(// возвращаемое значение - открытый дескриптор заданного файла
+                fileName: FileName,//имя файла для чтения 
+                         fileAccess: FileAccess.Read,//доступ только для чтения 
+                         fileShare: FileShare.Write | FileShare.Read | FileShare.Delete,
+                         securityAttributes: IntPtr.Zero,
+                         creationDisposition: FileMode.OpenOrCreate,//создать или открыть существующий файл 
+                         flags: FileAttributes.Normal, // У файла нет других установленных атрибутов 
+                         template: IntPtr.Zero);
+            if (drive.IsInvalid)
+            {
+                throw new IOException("Unable to access drive. Win32 Error Code " +
+Marshal.GetLastWin32Error());
+                //if get windows error code 5 this means access denied. 
+                //You must try to run the program as admin privileges. 
+            }
+            //чтение данных по дескриптору файла 
+            FileStream diskStreamToRead = new FileStream(drive, FileAccess.Read);
+            byte[] buf = new byte[512];
+            diskStreamToRead.Read(buf, 0, 512);
+            try { diskStreamToRead.Close(); } catch { }//закрытие файлового потока 
+            try { drive.Close(); } catch { }//закрытие дескриптора 
+            return buf;
+        }
+        //function to write 
+        private static void writeToDisk(string lpFileName, byte[] dataToWrite)
+        {
+            if (dataToWrite == null) throw new System.ArgumentException("dataToWrite parameter cannot be null!");
+
+
+            SafeFileHandle drive = CreateFile(
+                fileName: lpFileName,//название файла для записи данных 
+                             fileAccess: FileAccess.Write,//доступ только для записи 
+                             fileShare: FileShare.Write | FileShare.Read | FileShare.Delete,
+                             securityAttributes: IntPtr.Zero,
+                             creationDisposition: FileMode.Create,//создает новый файл/ если файл создан удаляет 
+                             flags: FileAttributes.Normal, //with this also an enum can be used. (as described above as EFileAttributes)
+                             template: IntPtr.Zero);
+
+            FileStream diskStreamToWrite = new FileStream(drive, FileAccess.Write);
+            diskStreamToWrite.Write(dataToWrite, 0, dataToWrite.Length);//запись данных в файл 
+            try { diskStreamToWrite.Close(); } catch { }
+            try { drive.Close(); } catch { }
+        }
+
+
+       static void Main()
+        {
+              // Путь к файлу с данными
+              string filePath = @"tt.txt";//это переменная, которая содержит путь к файлу на компьютере.
+
+            // Создаем два списка чисел, в которых будем хранить неотсортированные и отсортированные данные
+            List<int> unsortedNumbers = new List<int>();
+              List<int> sortedNumbers = new List<int>();
+
+              // Считываем данные из файла и добавляем их в список неотсортированных чисел
+              using (StreamReader reader = new StreamReader(filePath))
+              {
+                  string line;
+                  while ((line = reader.ReadLine()) != null)//до тех пор, пока переменная "line", содержащая строку, прочитанную из объекта "reader", не будет равна null.
+                  {
+                      int number;
+                      if (int.TryParse(line, out number)) // это метод, который пытается преобразовать строку в числовое значение определенного типа данных
+                    {
+                          unsortedNumbers.Add(number);
+                      }
+                  }
+              }
+
+              // Копируем список неотсортированных чисел в список отсортированных чисел и сортируем его по убыванию
+              sortedNumbers.AddRange(unsortedNumbers); // метод, который добавляет коллекцию элементов в конец списка (List)
+              sortedNumbers.Sort((a, b) => -1 * a.CompareTo(b));//метод, который сравнивает два объекта a и b. Он возвращает целое число, которое указывает, какой из объектов больше или меньше, или же они равны.
+
+              // Запись отсортированных чисел в файл
+              File.AppendAllLines(filePath, sortedNumbers.Select(n => n.ToString()));
+
+              // Выводим неотсортированные числа на консоль
+              Console.WriteLine("Unsorted numbers:");
+              foreach (int number in unsortedNumbers)
+              {
+                  Console.WriteLine(number);
+              }
+
+              // Выводим отсортированные числа на консоль
+              Console.WriteLine("Sorted numbers:");
+              foreach (int number in sortedNumbers)
+              {
+                  Console.WriteLine(number);
+              }
+           
+        }
+      
+    }
+}
