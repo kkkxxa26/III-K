@@ -1,0 +1,72 @@
+//лабораторная работа 5
+/* б) задать перемещение объекта по периметру экрана.*/
+import javax.swing.*;
+import java.awt.*;
+public class MovingObject extends JPanel {
+
+    private static final int WIDTH = 800;//высотка окна
+    private static final int HEIGHT = 600;//ширина окна
+    private static final int OBJECT_SIZE = 100;//размер фигуры
+    private static final int OBJECT_SIZE1 = 200;//размер фигуры
+    private int x = 0;//начальная координата по оси x
+    private int y = 0;//начальная координата по оси y
+    private int direction = 1; // Направление движения: 1 - вправо, 2 - вниз, 3 - влево, 4 - вверх
+    private Color color = Color.red; //начальный цвет объекта
+
+    public MovingObject() {
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        Timer timer = new Timer(20, e -> {
+            switch (direction) { // Изменяем координаты объекта в зависимости от направления движения
+                case 1:
+                    x += 5;
+                    if (x >= WIDTH - OBJECT_SIZE) { // Если объект достиг края экрана, меняем направление движения и цвет
+                        direction = 2;
+                        color = Color.blue;
+                    }
+                    break;
+                case 2:
+                    y += 5;
+                    if (y >= HEIGHT - OBJECT_SIZE) {
+                        direction = 3;
+                        color = Color.green;
+                    }
+                    break;
+                case 3:
+                    x -= 5;
+                    if (x <= 0) {
+                        direction = 4;
+                        color = Color.yellow;
+                    }
+                    break;
+                case 4:
+                    y -= 5;
+                    if (y <= 0) {
+                        direction = 1;
+                        color = Color.red;
+                    }
+                    break;
+            }
+            repaint();
+        });
+        timer.start();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) // отрисовывает графический компонент.
+    {
+        super.paintComponent(g);//для очистки области рисования.
+        Graphics2D g2d = (Graphics2D) g.create();//создание нового объекта Graphics2D для отрисовки.
+        g2d.setColor(color);//установка цвета для отрисовки.
+        g2d.fillRect(x, y, OBJECT_SIZE1, OBJECT_SIZE);//отрисовка прямоугольника, начиная с координат (x, y) и имеющего размеры
+        g2d.dispose();// освобождение ресурсов, связанных с объектом Graphics2D.
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Moving Object");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(new MovingObject());
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+}
