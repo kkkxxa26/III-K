@@ -1,0 +1,79 @@
+/*  Лабораторная работа №4
+    4.Буквенные комбинации номера телефона
+        Задана строка, содержащая цифры от 2 до 9 включительно. Необходимо вернуть все возможные
+        комбинации букв, которые может представлять число. Результат запишите в файл.
+        Отображение цифр в буквы (точно так же, как на телефонных кнопках) приведено ниже. Обратите
+        внимание, что 1 не соответствует ни одной букве
+        " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
+        "1", "2" ,  "3" ,  "4"  , "5" ,  "6" ,   "7",   "8",   "9"
+
+        */
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Main {
+    // Массив, содержащий отображение цифр в буквы
+    private static final String[] LETTERS = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+    public static void main(String[] args) {
+
+        Scanner text = new Scanner(System.in);
+        System.out.print("Введите число:");
+
+        try {
+            String input = text.nextLine();
+            String[] numbers = input.split(" ");
+
+            FileWriter writer = new FileWriter("output.txt", true);//создаем файл
+
+            // Проверка на ошибку если введено не число
+            for (String number : numbers) {
+                if (!isNumeric(number)) {
+                    System.out.println("Ошибка '" + number + "' не числом");
+                    return;
+                }
+
+                generateCombinations(number, 0, new StringBuilder(), writer);
+
+                // перенос строки после каждого числа
+                writer.write("\n");
+                writer.close();
+
+                // Создаем новый файл для записи на следующую итерацию
+                writer = new FileWriter("output.txt", true);
+            }
+
+            // Закрываем файл после последней итерации
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Ошибка при записи в файл.");
+            e.printStackTrace();
+        }
+    }
+
+    private static void generateCombinations(String number, int index, StringBuilder combination, FileWriter writer) throws IOException {
+        if (index == number.length()) {
+            // Базовый случай: достигнут конец строки, записываем комбинацию в файл
+            writer.append(combination.toString()).append("   ");
+        } else {
+            // Рекурсивный случай: генерируем все возможные комбинации букв для текущей цифры
+            String letters = LETTERS[number.charAt(index) - '0'];
+            for (int i = 0; i < letters.length(); i++) {
+                combination.append(letters.charAt(i));
+                generateCombinations(number, index + 1, combination, writer);
+                combination.deleteCharAt(combination.length() - 1);
+            }
+        }
+    }
+
+    // Метод для проверки, является ли строка числом
+    private static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+}
