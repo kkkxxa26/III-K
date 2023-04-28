@@ -1,0 +1,116 @@
+/*3) Сгенерируйте массив целых чисел, используя класс Random().
+     Используя методы классов-коллекций:
+        a) создайте новый массив, переписав в него часть элементов из первого массива
+        b) определите уникальные числа
+        c) отсортируйте массив
+  */
+
+import java.util.*;
+
+public class task3 {
+    public static void main(String[] args) {
+        // создаем класс Random
+        Random random = new Random();
+        //размер массива
+        int size = 10;
+        // сам массив
+        int[] massive = new int[size];
+        // заполняем массив случайными числами
+        for (int i = 0; i < size; i++) {
+            massive[i] = random.nextInt(10); // генерируем случайное число в диапазоне от 0 до 99
+        }
+        // вывод
+        System.out.print("Первый Массив: [");
+        for (int i = 0; i < massive.length; i++) {
+            if (i != 0) {
+                System.out.print(", ");
+            }
+            System.out.print(massive[i]);
+        }
+        System.out.println("]");
+
+        // создаем список из первой половины элементов первого массива
+        // используем метод add()
+       List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < size / 2; i++) {
+            list.add(massive[i]);
+        }
+
+        // создаем массив и копируем в него элементы из списка
+        // используем метод get()
+        int[] massive2 = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            massive2[i] = list.get(i);
+        }
+        System.out.print("Второй Массив1: [");
+        for (int i = 0; i < massive2.length; i++) {
+            if (i != 0) {
+                System.out.print(", ");
+            }
+            System.out.print(massive2[i]);
+        }
+        System.out.println("]");
+
+        // используя метод sort() сортируем оба массива
+        Arrays.sort(massive);
+        Arrays.sort(massive2);
+
+        // Вывод
+        System.out.print("Отсортированный первый массив: [");
+        for (int i = 0; i < massive.length; i++) {
+            if (i != 0) {
+                System.out.print(", ");
+            }
+            System.out.print(massive[i]);
+        }
+        System.out.println("]");
+
+        System.out.print("Отсортированный второй массив: [");
+        for (int i = 0; i < massive2.length; i++) {
+            if (i != 0) {
+                System.out.print(", ");
+            }
+            System.out.print(massive2[i]);
+        }
+        System.out.println("]");
+
+        // создаем допольнительную коллекцию
+        List<Integer> uniquelList = new ArrayList<>();
+
+        // заносим все элементы первого массива
+        for (int i = 0; i < size; i++) {
+            uniquelList.add(massive[i]);
+        }
+
+        // удаляем все повторяющиеся элементы из дополнительной коллекции
+        for (int i = 0; i < uniquelList.size(); i++) {
+            for (int j = i + 1; j < uniquelList.size(); j++) {
+                if (uniquelList.get(i).equals(uniquelList.get(j))) {
+                    uniquelList.remove(j);
+                    uniquelList.remove(i);
+                    i--;
+                    break;
+                }
+            }
+        }
+        // вывод
+        System.out.print("Уникальные числа первого массива: [");
+        for (int i = 0; i < uniquelList.size(); i++) {
+            int count = 0;
+            for (int j = 0; j < size; j++) {
+                if (uniquelList.get(i) == massive[j]) {
+                    count++;
+                }
+            }
+            if (count == 1) {
+                if (i != 0) {
+                    System.out.print(", ");
+                }
+                System.out.print(uniquelList.get(i));
+            }
+        }
+        System.out.println("]");
+
+    }
+
+}
