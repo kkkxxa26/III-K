@@ -1,0 +1,134 @@
+/*  1) Создайте следующие коллекции. Выполните различные действия с ними.
+        -Коллекция для хранения объектов: ArrayList
+        -Коллекция для хранения и поиска уникальных идентификаторов: HashSet */
+import java.util.*;
+
+public class task1 {
+    public static void main(String[] args) {
+//---------------------------ArrayList---------------------------
+/*создаем ArrayList для хранения строк и используем методы следующие методы:
+    add(), get(), set(), remove(), contains(), size(), clear(), isEmpty(), Iterator(), sort()*/
+        System.out.println("Задание1.1 Коллекция для хранения объектов: ArrayList \n");
+        // Коллекция для хранения объектов: ArrayList
+        ArrayList<String> myArrayList = new ArrayList<>();
+        // Добавляем элементы в ArrayList
+        myArrayList.add("яблоко");
+        myArrayList.add("банан");
+        myArrayList.add("апельсин");
+        // Вывод
+        System.out.println("Содержимое ArrayList: " + myArrayList);
+        // Сортируем ArrayList
+        Collections.sort(myArrayList);
+        // Выводим отсортированный ArrayList
+        System.out.println("Отсортированный ArrayList: " + myArrayList);
+        // Преобразуем ArrayList в массив
+        String[] myArray = myArrayList.toArray(new String[0]);
+        // Выводим элементы массива на экран
+        System.out.println("Преобразовали в массив:");
+        for (String fruit : myArray) {
+            System.out.println(fruit);
+        }
+        // Получаем элемент по индексу
+        String fruit = myArrayList.get(1);
+        System.out.println("Второй элемент: " + fruit);
+        // Заменяем элемент по индексу
+        myArrayList.set(1, "gjvtyzk");
+        System.out.println("После замены: " + myArrayList);
+       // Удаляем элемент по индексу
+        myArrayList.remove(2);
+        System.out.println("После удаления: " + myArrayList);
+        // Проверяем наличие элемента в ArrayList (содржит ли)
+        boolean contains = myArrayList.contains("груша");
+        System.out.println("Содержит ли грушу? " + contains);
+        // Размер ArrayList
+        int size = myArrayList.size();
+        System.out.println("Размер ArrayList: " + size);
+        // clear ArrayList
+        myArrayList.clear();
+        System.out.println("После очистки: " + myArrayList);
+        // Является ли ArrayList пустым
+        boolean isEmpty = myArrayList.isEmpty();
+        System.out.println("Пустой ли ArrayList? " + isEmpty);
+        ArrayList<String> myArrayList2 = new ArrayList<>();
+
+        // Добавляем элементы в ArrayList
+        myArrayList2.add("что");
+        myArrayList2.add("кто");
+        myArrayList2.add("зачем\n");
+
+        // Получаем объект Iterator для ArrayList
+        Iterator<String> iterator = myArrayList2.iterator();
+
+        // Перебираем элементы ArrayList с помощью Iterator
+        while (iterator.hasNext()) {
+            String fruits = iterator.next();
+            System.out.println(fruits);
+        }
+//---------------------------HashSet---------------------------
+        System.out.println("Задание1.2 Коллекция для хранения и поиска уникальных идентификаторов: HashSet \n");
+    //-Коллекция для хранения и поиска уникальных идентификаторов: HashSet
+
+        /*оздаем HashSet для хранения и поиска уникальных идентификаторов и используем следующие методы:
+          add(), contains(), clone() , isEmpty() , remove(),size(), clear()     */
+        // Создаем HashSet для хранения уникальных идентификаторов
+        Set<Integer> unikSet = new HashSet<>();
+
+        // Добавляем элементы в HashSet
+        unikSet.add(10);
+        unikSet.add(20);
+        unikSet.add(30);
+        unikSet.add(40);
+        unikSet.add(50);
+
+        // Выводим содержимое HashSet
+        System.out.println("Содержимое HashSet  : " + unikSet);
+
+        // Выполняем поиск элементов в HashSet
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Поиск уникальных идентификаторов: ");
+        int id = scanner.nextInt();
+
+        if (unikSet.contains(id)) {
+            System.out.println("HashSet содержит элемент " + id);
+        } else {
+            System.out.println("HashSet не содержит элемент " + id);
+        }
+
+        // Создаем копию HashSet
+            Set<Integer> copySet = (Set<Integer>) ((HashSet<Integer>) unikSet).clone();
+
+        // Выводим содержимое копии HashSet
+        System.out.println("Копия HashSet: " + copySet);
+
+        // Проверяем, пустая ли коллекция HashSet
+        if (unikSet.isEmpty()) {
+            System.out.println("HashSet пустая.");
+        } else {
+            System.out.println("HashSet не пустая.");
+        }
+
+
+        // Удаляем элемент из HashSet с консоли
+        Scanner scannerdel = new Scanner(System.in);
+        System.out.print("Введите элемент для удаления: ");
+        int element = scannerdel.nextInt();
+        boolean result = unikSet.remove(element);
+
+        if (result) {
+            System.out.println("Элемент " + element + " удален из HashSet.");
+        } else {
+            System.out.println("Элемент " + element + " не найден в HashSet.");
+        }
+        // Выводим содержимое HashSet после удаления элемента
+        System.out.println("Содержимое HashSet после удаления элемента: " + unikSet);
+
+        // Выводим размер HashSet
+        System.out.println("Размер HashSet: " + unikSet.size());
+
+        // Удаляем все элементы из HashSet
+        unikSet.clear();
+
+        // Выводим содержимое HashSet после удаления всех элементов
+        System.out.println("Содержимое HashSet после удаления всех элементов: " + unikSet);
+    }
+}
