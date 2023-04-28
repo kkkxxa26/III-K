@@ -1,0 +1,46 @@
+/*2)	Создайте очередь Deque, заполните элементами, повлияйте на первый и последний элементы*/
+/*используем методы следующие методы:  addFirst(), removeLast(), deque.addLast(), peekFirst(), offerLast(), offerFirst()
+*/
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Scanner;
+
+public class task2 {
+    public static void main(String[] args) {
+        // Создаем Deque и добавляем элементы
+        Deque<Integer> deque = new LinkedList<>();
+
+        deque.add(20);
+        deque.add(30);
+        deque.add(40);
+        deque.addLast(50);
+        deque.addFirst(10);
+        System.out.println("Deque до изменений: " + deque);
+
+        // Изменяем первый элемент
+        deque.addFirst(1);
+        //удаляем последний элемент
+        deque.removeLast();
+        // Изменяем последний элемент
+        deque.addLast(60);
+
+        System.out.println("Deque после изменений: " + deque);
+
+        // Удаление элемента с консоли
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите цифру котоорую нужно удалить: ");
+        int index = scanner.nextInt();
+        deque.remove(index);
+
+        System.out.println("Deque после удаления элемента: " + deque);
+
+        //The method returns the first element of the Deque.
+        System.out.println("Первый элемент Deque: " + deque.peekFirst());
+
+        deque.offerLast(1000);
+        deque.offerFirst(1111);
+
+
+        System.out.println("Deque после добавления последнего элемента: " + deque);
+    }
+}
