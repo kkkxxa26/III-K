@@ -1,0 +1,140 @@
+/*Создать аналог чат-фрейма, как показано ниже
+  блок А, вариант А-2
+ */
+//формат файла "txt"
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.net.URI;
+
+class gui1 {
+    public static void main(String[] args) {
+//----------------JFrame----------------
+        JFrame frame = new JFrame("Chat Frame"); //создаем Frame
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//это нужно для того чтобы при закрытии окна закрывалась и программа
+        frame.setSize(400, 400);//размеры
+
+//----------------MenuBar----------------
+        JMenuBar mb = new JMenuBar();//создаем MenuBar и добавляем компоненты
+        JMenu m1 = new JMenu("FILE");// создает объект "FILE"
+        mb.add(m1); // добавляем в JMenuBar
+
+        //создаем пункты меню с помощью JMenuItem
+        JMenuItem m11 = new JMenuItem("Open");//открытие файла
+        m1.add(m11);
+        //создаем слушатель действий
+        //ActionListener на кнопку "Open", он создает диалоговое окно для выбора файла.
+        m11.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    java.io.File file = fileChooser.getSelectedFile();
+                }
+            }
+        });
+
+        JMenuItem m2 = new JMenuItem("Help");// создает объект "Help"
+        mb.add(m2);// добавляем в JMenuBar
+        //ActionListener на кнопку "Help", при нажатии на кнопку переходит по указанной ссылке
+        m2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // вызывает метод browse() класса Desktop, который открывает указанный URI в стандартном веб-браузере
+                    Desktop.getDesktop().browse(new URI("https://classroom.google.com/u/0/c/NTg1NDYwNTk3ODE5/a/NjA0OTcyMTUzODU2/details"));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        //Создаем панель внизу и добавляем компоненты
+        JPanel panel = new JPanel(); // the panel is not visible in output
+        JLabel label = new JLabel("Enter Text");
+        JTextField tf = new JTextField(10); // accepts up to 10 characters
+        JButton send = new JButton("Send");
+        JButton reset = new JButton("Reset");
+        panel.add(label); // Components Added using Flow Layout
+        panel.add(tf);
+        panel.add(send);
+        panel.add(reset);
+        JTextArea ta = new JTextArea();//объект  для центральной области окна, где будет отображаться текст.
+        //добавляет все компоненты на фрейм
+        frame.getContentPane().add(BorderLayout.SOUTH, panel);
+        frame.getContentPane().add(BorderLayout.NORTH, mb);
+        frame.getContentPane().add(BorderLayout.CENTER, ta);
+        frame.setVisible(true);// для отображения окна на экране.
+
+        JMenuItem m22 = new JMenuItem("Save as");// сохранить файл
+        m1.add(m22);
+
+        // ActionListener для кнопки "Save as"
+        m22.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser(); //
+                // выбора файла
+                fileChooser.setFileFilter(new FileNameExtensionFilter("Text Files", "txt"));
+                fileChooser.setSelectedFile(new File("*.txt"));
+                int option = fileChooser.showSaveDialog(frame);//для показа диалогового окна сохранения файла
+                if (option == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        File file = fileChooser.getSelectedFile();
+                        FileWriter fw = new FileWriter(file);
+                        fw.write(ta.getText());
+                        fw.close();
+                        JOptionPane.showMessageDialog(frame, "Файл сохранен");// все прошло успешно
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(frame, "Ошибка при сохранении файла");// не успешно
+                    }
+                }
+            }
+        });
+
+        //ActionListener для кнопки  "Send"
+        send.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String text = tf.getText();
+                ta.append(text + "\n");
+                tf.setText("");
+            }
+
+        });
+        // слушатель событий KeyListener, кнопка ENTER
+        tf.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+                    send.doClick();//чтобы эмулировать нажатие на кнопку "Send"
+                }
+            }
+        });
+
+        //ActionListener для кнопки "Reset", сброс
+        reset.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ta.setText("");
+                tf.setText("");
+            }
+        });
+        // слушатель событий KeyListener, кнопка DELETE
+        tf.addKeyListener(new KeyListener() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                    reset.doClick();
+                }
+            }
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+
+    }
+}
