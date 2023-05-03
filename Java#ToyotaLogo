@@ -1,0 +1,38 @@
+/*Создание сложного изображения из повторяющегося простого. Создать N рядов изображений из
+множества M логотипов в каждом ряде.
+Для рисования нужно использовать относительные координаты и вложенные циклы. Ниже представлен пример
+рисования логотипа Мерседеса при N=6, M=16:
+ варинат 2 "Toyota"
+ */
+import java.awt.*;
+import javax.swing.*;
+public class Toyota {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        frame.setSize(700, 500);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setLayout(null);
+        Logo log = new Logo();
+        log.setBackground(Color.white);
+        log.setBounds(10, 10, 700 , 500);
+        frame.add(log);
+        frame.setVisible(true);
+    }
+
+    public static class Logo extends JPanel {
+        public void paint(Graphics g) {
+            super.paint(g);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(2.0f));
+            g2.setColor(Color.BLACK);
+            for (int i = 0; i < 16; i++) {
+                for (int j = 0; j < 6; j++) {
+                    g2.drawOval(10 + (i * 40), 20 + (j * 40), 30, 30);
+                    g2.drawOval(13 + (i * 40), 20 + (j * 40), 23, 15);
+                    g2.drawOval(20 + (i * 40), 22 + (j * 40), 10, 27);
+
+                 }
+            }
+        }
+    }
+}
