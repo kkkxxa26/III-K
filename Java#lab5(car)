@@ -1,0 +1,90 @@
+/* Необходимо создать изображение с использованием разных цветов
+   блок Б, вариант Б-2 "Автомобиль на трассе"
+*/
+import java.awt.*;
+import javax.swing.*;
+
+import static java.awt.Font.BOLD;
+
+public class GridExample extends JPanel {
+
+    private int width;
+    private int height;
+
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+        width = getWidth(); // сохраняем текущую ширину панели
+        height = getHeight(); // и высоту
+        drawGrid(g); // рисуем сетку
+    }
+
+    private void drawGrid(Graphics g)
+    {
+        g.setColor(Color.LIGHT_GRAY);
+        g.setFont(new Font("Tahoma", BOLD, 12));
+             for(int x = 30; x < width-30; x += 30)
+        {
+            g.drawLine(x, 30, x, height-30); // вертикальная линия
+            String str = String.valueOf(x);
+            g.drawString(str, x - 10, 20);
+        }
+            for(int y = 30; y < height-30; y += 30)
+        {
+            g.drawLine(30, y, width-30, y); // горизонтальная линия
+            String str = String.valueOf(y);
+            g.drawString(str, 5, y + 5);
+        }
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Tahoma", BOLD, 12));
+        g.drawString("Автомобиль на трассе", 170, 70);
+
+        // трасса
+        g.drawLine(50, 181, 350, 181);
+
+        // Машина
+        g.setColor(Color.RED);
+       // g.fillRect(50, 100, 200, 50);
+        g.fillRoundRect(50, 100, 200, 50, 20, 20);
+
+        // подобие окошка
+        g.setColor(Color.WHITE);
+        g.fillOval(200, 105, 29, 29);
+        g.fillOval(70, 105, 29, 29);
+        //  колеса
+        g.setColor(Color.BLACK);
+        g.fillArc(70, 140, 40, 40, 0, 360);
+        g.fillArc(195, 140, 40, 40, 0, 360);
+
+        //дверь
+        g.setColor(Color.BLUE);
+        g.fillRect(109, 100, 40, 50);
+        g.fillRect(155, 100, 40, 50);
+
+        //  ручка двери
+        g.setColor(Color.YELLOW);
+        g.fillOval(139, 120, 10, 10);
+        g.fillOval(153, 120, 10, 10);
+
+    }
+
+
+    public static void main(String[] args)
+    {
+
+
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(new GridExample());
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+
+    }
+
+}
