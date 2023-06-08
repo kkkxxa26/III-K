@@ -1,0 +1,162 @@
+
+import java.util.*;
+/*
+and &
+or |
+xor ^
+
+& and &
+0 0 = 0
+0 1 = 0
+1 0 = 0
+1 1 = 1
+| or |
+0 0 = 0
+0 1 = 1
+1 0 = 1
+1 1 = 1
+^ xor ^
+0 0 = 0
+0 1 = 1
+1 0 = 1
+1 1 = 0
+таблица истинности
+0 = 0000
+1 = 0001
+2 = 0010
+
+0010
+0101
+0111
+3 = 0011
+4 = 0100
+5 = 0101
+6 = 0110
+7 = 0111
+8 = 1000
+9 = 1001
+
+(A | B &(A ^ 5 | (A & B)))
+ */
+public class Main {
+
+    public static boolean checkParentheses(String expression) {
+        expression.replaceAll(" ", "");
+        Stack<Character> stack = new Stack<>();
+        Set<Character> openingParentheses = new HashSet<>(Arrays.asList('(', '[', '{'));
+        Set<Character> closingParentheses = new HashSet<>(Arrays.asList(')', ']', '}'));
+
+        for (char ch : expression.toCharArray()) {
+            if (openingParentheses.contains(ch)) {
+                stack.push(ch);
+            } else if (closingParentheses.contains(ch)) {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                char lastOpening = stack.pop();
+                if ((ch == ')' && lastOpening != '(') ||
+                        (ch == ']' && lastOpening != '[') ||
+                        (ch == '}' && lastOpening != '{')) {
+                    return false;
+                }
+            }
+        }
+
+        return stack.isEmpty();// true
+    }
+
+    public static List<Character> findBracketOrder(String expression) {
+        expression = expression.replaceAll(" ", "");// пробелы
+        if (expression.isEmpty()) {
+            throw new IllegalArgumentException("Empty text");
+        }
+
+        if (!checkParentheses(expression)) {
+            throw new IllegalArgumentException("скобки !!!!!!!!!!!");
+        }
+
+        Stack<Character> stack = new Stack<>();
+        List<Character> order = new ArrayList<>();
+        Map<Character, Integer> operators = new HashMap<>();
+        operators.put('^', 1);
+        operators.put('|', 1);
+        operators.put('&', 3);
+        Map<Character, Character> brackets = new HashMap<>();
+        brackets.put(')', '(');
+        brackets.put(']', '[');
+        brackets.put('}', '{');
+
+        for (char ch : expression.toCharArray()) {
+            if (brackets.containsValue(ch)) {
+                stack.push(ch);
+            } else if (brackets.containsKey(ch)) {
+                while (!stack.isEmpty() && stack.peek() != brackets.get(ch)) {
+                    order.add(stack.pop());
+                }
+                stack.pop();
+            } else if (operators.containsKey(ch)) {
+                while (!stack.isEmpty() && operators.containsKey(stack.peek()) && operators.get(ch) <= operators.get(stack.peek())) {
+                    order.add(stack.pop());
+                }
+                stack.push(ch);
+            } else {
+                order.add(ch);
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            order.add(stack.pop());
+        }
+
+        return order;
+    }
+
+    public static int evaluatePostfix(List<Character> postfix) {
+        Stack<Integer> stack = new Stack<>();
+        Map<Character, Integer> values = new HashMap<>();
+        Scanner scanner = new Scanner(System.in);
+
+        for (char ch : postfix) {
+            if (Character.isDigit(ch)) {
+                stack.push(Character.getNumericValue(ch));
+            } else if (Character.isAlphabetic(ch)) {
+                if (!values.containsKey(ch)) {
+                    System.out.print("Введите значение для " + ch + ": ");
+                    values.put(ch, scanner.nextInt());
+                }
+                stack.push(values.get(ch));
+            } else {
+                int operand2 = stack.pop();
+                int operand1 = stack.pop();
+                int result;
+
+                if (ch == '&') {
+                    result = operand1 & operand2;
+                } else if (ch == '|') {
+                    result = operand1 | operand2;
+                } else if (ch == '^') {
+                    result = operand1 ^ operand2;
+                } else {
+                    throw new IllegalArgumentException("Invalid operator: " + ch);
+                }
+
+                System.out.println("операция: " + ch + "   |   op1: " + operand1 + " - op2 " + operand2 + " = " + result);
+                stack.push(result);
+            }
+        }
+
+        return stack.pop();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите выражение: ");
+        String text = scanner.nextLine();
+
+        List<Character> bracketOrder = findBracketOrder(text);
+        System.out.println(bracketOrder);
+
+        int result = evaluatePostfix(bracketOrder);
+        System.out.println("Результат: " + result);
+    }
+}
